@@ -2,9 +2,10 @@ import React, { Component } from "react"
 
 class AddTodo extends Component {
     state = {
-        content: ''
+        content: '',
+        authError: ''
     }
-
+    
     handleChange = (e) => {
         this.setState({
             content: e.target.value
@@ -16,9 +17,15 @@ class AddTodo extends Component {
         if(this.state.content !== '' && this.state.content.trim() !== ''){
         this.props.addTodo(this.state);
         this.setState({
+            authError: '',
             content: ''
         })
-     }
+     }else{
+        this.setState({
+            ...this.state,
+            authError: 'Invalid input'
+        })
+    }
     }
 
     render(){
@@ -29,6 +36,9 @@ class AddTodo extends Component {
                     <div>
                         <input type="text" onChange={this.handleChange} value={this.state.content} />
                         <button className="btn blue lighten-1 z-depth-0">Create</button>
+                        <div className="red-text center">
+                            { this.state.authError ? <p>{this.state.authError}</p> : null}
+                        </div>
                     </div>                    
                 </form>
             </div>
